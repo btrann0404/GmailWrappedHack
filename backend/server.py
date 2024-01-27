@@ -1,12 +1,12 @@
 # pip install --upgrade firebase-admin
 #pip install firebase_admin
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import firestore, credentials
 
-from gmailapitesting import getEmails
+from gmailapitesting import getEmails, organizeEmails
 from gpt import summarize
 
 app = Flask(__name__)
@@ -36,19 +36,22 @@ def summarize_article_route():
 
 @app.route('/getemails', methods=['GET', 'POST'])
 def get_emails_route():
+    data = request.get_json()
+    categories = data.get('categories')
     emailList = getEmails()  # Call your getEmails function
-    # Process your email list to ensure it's JSON serializable
-    processedEmailList = []
-    for email in emailList:
-        processedEmail = {
-            "Subject": email["Subject"],
-            "Sender": email["Sender"],
-            "Body": email["Body"].decode('utf-8') if email["Body"] else None
-        }
-        processedEmailList.append(processedEmail)
-        print(processedEmail)
+    organizedEmails = organizeEmails(emailList, categories)
 
-    return jsonify(processedEmailList)
+    # print("in server.py")
+    # print(organizedEmails)
+
+    for category, emails in organizedEmails.items():
+        for email in emails:
+            if email.get('Body') is not None:
+                email['Body'] = email['Body'].decode('utf-8')
+
+    # print(organizedEmails)
+
+    return jsonify(organizedEmails)
 
 def add_data():
     # Reference to the collection

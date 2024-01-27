@@ -55,12 +55,15 @@ def getEmails():
             subject = None
             sender = None
             body = None
+            datetime = None
 
             # Extract Subject and From from email headers
             if mime_msg['subject']:
                 subject = mime_msg['subject']
             if mime_msg['from']:
                 sender = mime_msg['from']
+            if mime_msg['date']:
+                datetime = mime_msg['date']
 
             # Extract body
             if mime_msg.is_multipart():
@@ -76,17 +79,32 @@ def getEmails():
             else:
                 body = mime_msg.get_payload(decode=True)
             
-            emails.append({"Subject": subject, "Sender": sender, "Body": body})
+            emails.append({"Subject": subject, "Sender": sender, "Body": body, "Datetime": datetime})
 
         return emails
 
+def organizeEmails(emailList, categories):  
+    print(categories[0])
+    # emailList is a list of emails with the subject, sender, body, date
+    category_lists = {category: [] for category in categories[0]}
+    for email in emailList:
+        tempemail = categorize(email["Body"].decode('utf-8'), categories[0])
+        if tempemail in category_lists:
+            category_lists[tempemail].append(email)
+    for category, emails in category_lists.items():
+        category_lists[category] = sorted(emails, key=lambda x: x['Datetime'], reverse=True)
+    print(category_lists)
+    return category_lists  # returns a dictionary of all the categories. each key is a category and each of those has a list of the emails
+
+
 if __name__ == '__main__':
     emailList = getEmails()
-    for i in range(3):
-        print(emailList[i]["Body"].decode('utf-8') + "\n\n\n\n\n\n")
-    for i in range(3):
-        email_body_str = emailList[i]["Body"].decode('utf-8')
-        print(summarize(email_body_str))
-        print(categorize(email_body_str, ["Technology", "Business", "School"]))
+    # for i in range(3):
+    #     print(emailList[i]["Body"].decode('utf-8') + "\n\n\n\n\n\n")
+    # for i in range(3):
+    #     email_body_str = emailList[i]["Body"].decode('utf-8')
+    #     print(summarize(email_body_str))
+    #     print(categorizeorgani(email_body_str, ["Technology", "Business", "School"]))
+    print(organizeEmails(emailList, ["Technology", "Business", "School"]))
         
 
