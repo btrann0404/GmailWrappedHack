@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 fb_app = firebase_admin.initialize_app()
 db = firestore.client()
-cred = credentials.Certificate("/serviceAccountKey.json")
+cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
 @app.route("/home")
