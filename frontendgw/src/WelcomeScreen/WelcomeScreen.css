@@ -1,0 +1,35 @@
+/* WelcomeScreen.css */
+
+.welcome-screen {
+    background-color: #ffffff;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+    animation: logoFade 3s ease forwards;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.welcome-screen img {
+    max-width: 80%;
+    max-height: 80%;
+  }
+
+  @keyframes logoFade {
+    0%{
+        opacity: 0;
+    }
+    25%, 75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+  }
