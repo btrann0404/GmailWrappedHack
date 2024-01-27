@@ -84,7 +84,6 @@ def getEmails():
         return emails
 
 def organizeEmails(emailList, categories):  
-    print(categories[0])
     # emailList is a list of emails with the subject, sender, body, date
     category_lists = {category: [] for category in categories[0]}
     for email in emailList:
@@ -93,9 +92,14 @@ def organizeEmails(emailList, categories):
             category_lists[tempemail].append(email)
     for category, emails in category_lists.items():
         category_lists[category] = sorted(emails, key=lambda x: x['Datetime'], reverse=True)
-    print(category_lists)
+    print("organizeEmails worked!")
     return category_lists  # returns a dictionary of all the categories. each key is a category and each of those has a list of the emails
 
+def getSubjectLines(emailList):
+    subjectLines = []
+    for email in emailList:
+        subjectLines.append(email["Subject"] + " " + email["Sender"])
+    return subjectLines
 
 if __name__ == '__main__':
     emailList = getEmails()

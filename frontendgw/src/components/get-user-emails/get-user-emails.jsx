@@ -76,7 +76,7 @@ const GetUsersEmails = () => {
 
       <h2>User Emails</h2>
       {categories.map((category, index) => (
-        <div key={index}>
+        <div key={index}> 
           <h3>{category}</h3>
           {userEmails[category]?.map((emailData, emailIndex) => (
             <div key={emailIndex}>
