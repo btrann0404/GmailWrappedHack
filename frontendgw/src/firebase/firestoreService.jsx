@@ -1,7 +1,9 @@
-import db from "./firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import app from "./firebaseConfig";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 //example adding to database
+const db = getFirestore(app);
+
 export const addData = async () => {
   try {
     const collectionRef = collection(db, "your_collection_name");
