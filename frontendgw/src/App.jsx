@@ -7,7 +7,6 @@ const App = () => {
   return (
     <div>
       <WelcomeScreen />
-      <RightPanel />
     </div>
   );
 };
