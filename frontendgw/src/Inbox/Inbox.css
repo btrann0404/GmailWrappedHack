@@ -39,8 +39,17 @@ body {
     background-color: #e2e8f0; /* Default background color */
     border-radius: 1rem;
     transition: background-color 0.3s ease; /* Smooth transition on hover */
+    
+  }
+
+  .hidden {
+    display: none;
   }
   
+  .category-tab.selected {
+    display: flex;
+  }
+
   .category-tab:hover {
     background-color: #cbd5e0; /* Background color on hover */
   }
@@ -66,5 +75,8 @@ body {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
+    margin-right: .5rem;
+    margin-left: .5rem;
+
   }
   

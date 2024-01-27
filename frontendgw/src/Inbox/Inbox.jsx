@@ -4,6 +4,8 @@ import './Inbox.css';
 
 const Inbox = ({ emails, onEmailClick }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedEmail, setSelectedEmail] = useState(null);
+
 
   // Dummy categories for testing
   const categories = [
@@ -30,24 +32,29 @@ const Inbox = ({ emails, onEmailClick }) => {
     setSelectedCategory(category.id === selectedCategory ? null : category.id);
   };
 
-  const handleBackToAll = () => {
+  const handleGoBack = () => {
     // to go back to all categories after clicking on 1 category
     setSelectedCategory(null);
   };
 
+  const handleEmailClick = (email) => {
+    setSelectedEmail(email.id === selectedEmail ? null : email.id);
+    //console.log(email);
+    // You can pass the selected email to another component or perform other actions here
+  };
+  
   return (
     <div className="inbox-container">
       <div className="category-tabs">
         {categories.map((category) => (
           <div
-            key={category.id}
-            className={`category-tab ${category.id === selectedCategory ? 'selected' : ''}`}
-            onClick={() => handleTabClick(category)}
-          >
-            
+          key={category.id}
+          className={`category-tab ${selectedCategory !== null && category.id !== selectedCategory ? 'hidden' : ''}`}
+          onClick={() => handleTabClick(category)}
+        >
             <span>{category.icon}</span>
             <span>{category.name}</span>
-            {/* Display unread count only if there are unread emails IDK HOW TO IMPLEMENT THE AMT OF UNREADS */}
+            {/* Display unread count only if there are unread emails */}
             {dummyEmails.filter((dummyEmail) => dummyEmail.category === category.id && !dummyEmail.read).length > 0 && (
               <span className="unread-count ml-auto">
                 {dummyEmails.filter((dummyEmail) => dummyEmail.category === category.id && !dummyEmail.read).length}
@@ -63,7 +70,8 @@ const Inbox = ({ emails, onEmailClick }) => {
           {dummyEmails
             .filter((dummyEmail) => dummyEmail.category === selectedCategory)
             .map((filteredEmail) => (
-              <div key={filteredEmail.id} className="email-item">
+              <div key={filteredEmail.id} className="email-item" 
+              onClick={() => onEmailClick(filteredEmail)}>
                 <p>
                   <strong>{filteredEmail.subject}</strong>
                 </p>
@@ -71,6 +79,7 @@ const Inbox = ({ emails, onEmailClick }) => {
                 {/* Add more details as needed */}
               </div>
             ))}
+          <button onClick={handleGoBack}>Go Back</button>
         </div>
       )}
     </div>

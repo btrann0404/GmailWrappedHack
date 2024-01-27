@@ -5,7 +5,7 @@ import Inbox from './Inbox/Inbox';
 const App = () => {
   return (
     <div>
-      <Inbox />
+      <SplitScreen />
     </div>
   );
 };

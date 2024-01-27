@@ -1,0 +1,5 @@
+/* TestComponent.css */
+.inbox-container {
+    @apply w-1/2 border-r border-blue-300;
+  }
+  
