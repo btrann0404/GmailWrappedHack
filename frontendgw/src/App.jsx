@@ -1,6 +1,5 @@
 import React from 'react';
 import WelcomeScreen from './WelcomeScreen/WelcomeScreen';
-import RightPanel from './RightPanel/RightPanel'
 import './App.css';
 
 const App = () => {
