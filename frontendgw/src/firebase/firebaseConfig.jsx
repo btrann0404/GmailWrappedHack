@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,9 +18,6 @@ const firebaseConfig = {
   measurementId: "G-T3LHGLTYTK",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-const db = getFirestore(app);
 
-export default db;
+export default app;
