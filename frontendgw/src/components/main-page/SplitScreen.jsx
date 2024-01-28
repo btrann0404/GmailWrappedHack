@@ -37,16 +37,12 @@ const SplitScreen = () => {
     fetchUserProfile();
   }, [currentUser]);
 
-  const handleSignout = async (event) => {
-    event.preventDefault();
-    signOutUser();
-    navigate("/login");
-  };
+  // const handleSignout = async (event) => {
+  //   event.preventDefault();
+  //   signOutUser();
+  //   navigate("/login");
+  // };
   
-  const handleProfileOpen = async (event) => {
-    event.preventDefault();
-    navigate("/profile");
-  };
 
   // Callback function to receive data from GetUsersEmails
   const onDataReceived = (data) => {
@@ -57,14 +53,10 @@ const SplitScreen = () => {
 
   return (
     <div className="main-page fade-in">
-      <header className="main-header">
-        <button className="signs" onClick={handleProfileOpen}>Open Profile</button>
-        {userProfile && <h2 className="welcome-user">Welcome {userProfile.name}</h2>}
+        {/* {userProfile && <h2 className="welcome-user">Welcome {userProfile.name}</h2>}
         <div className="signs-container">
           <button className="signs" onClick={handleSignout}>Signout</button>
-        </div>
-      </header>
-
+        </div> */}
       <div style={{ display: 'flex'}}>
         <GetUsersEmails onDataFetched={onDataReceived} />
         <Inbox onEmailClick={handleEmailClick} emailData={emailData} />

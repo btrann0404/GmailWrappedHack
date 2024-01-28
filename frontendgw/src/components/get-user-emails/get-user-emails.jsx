@@ -3,6 +3,8 @@ import axios from "axios";
 import { db } from "../../firebase/firestoreService";
 import { doc, getDoc } from "firebase/firestore";
 import { useUserInfo } from "../../firebase/firebaseAuth";
+import { RepeatIcon } from '@chakra-ui/icons'
+
 
 const GetUsersEmails = ({ onDataFetched }) => {
   const [userEmails, setUserEmails] = useState([]);
@@ -78,8 +80,8 @@ const GetUsersEmails = ({ onDataFetched }) => {
 
   return (
     <div>
-      <button onClick={handleFetchData} style={{ border: "solid" }}>
-        Reload Emails
+      <button onClick={handleFetchData} className="w-12 h-12 rounded-full text-lg flex items-center justify-center" style={{ fontSize: "2em", margin: "0.1em"}}>
+        <RepeatIcon />
       </button>
 
       {/* {error && <p>Error: {error}</p>}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   signUpWithEmail,
   useUserInfo,
@@ -7,7 +7,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firestoreService";
 import { doc, setDoc } from "firebase/firestore";
-
+import './cssPages/SignupCss.css'
+import Mainheader from "../components/web utils/mainheader";
 
 function Signup() {
   const navigate = useNavigate();
@@ -17,16 +18,16 @@ function Signup() {
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState(""); // State for error messages
 
-  // const user = useUserInfo();
+  const user = useUserInfo();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log("User is already logged in. Signing out...");
-  //     signOutUser().then(() => {
-  //       console.log("User signed out successfully.");
-  //     });
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      console.log("User is already logged in. Signing out...");
+      signOutUser().then(() => {
+        console.log("User signed out successfully.");
+      });
+    }
+  }, [user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,9 +62,20 @@ function Signup() {
 
   return (
     <div>
-      <h2>Signup</h2>
+    <Mainheader></Mainheader>
+    <div className='body'>
+            <div className="welcome-container">
+              
+        <p className="welcome">Tell us about yourself!</p>
+        
+      </div>
+      <div className="login-container">
+      <button className="p-2" onClick={() => navigate("/")}>
+        ⬅ Go back
+        </button>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
+      <h2>Sign Up</h2>
         <div>
           <label>Name:</label>
           <input
@@ -100,9 +112,16 @@ function Signup() {
             onChange={(e) => setPassword2(e.target.value)}
           />
         </div>
-        <button type="submit">Submit</button>
+        <div className="button-container">
+        <button type="submit-button" className='submit-button'>Submit</button>
+        </div>
+        <div className="centered-text">
+        Already have an account? {' '}
+        <button className='signup-button' onClick={() => navigate("/login")}>Login</button>
+        </div>
       </form>
-      <button onClick={() => navigate("/login")}>Login</button>
+      </div>
+    </div>
     </div>
   );
 }

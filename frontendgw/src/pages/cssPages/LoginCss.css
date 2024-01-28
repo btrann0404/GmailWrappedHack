@@ -1,0 +1,112 @@
+/* LoginCss.css */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+/* Apply the font-family globally */
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #4285f4;
+    margin: 0 auto; /* Center the element horizontally using auto margins */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+
+  }
+  
+  .welcome-container {
+    width: 400px;
+    margin: 10px;
+  }
+
+  .welcome {
+    font-size: 75px;
+    font-weight: bolder;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    color:#ffffff;
+  }
+  
+  
+  .login-container {
+    background-color: #ffffff; /* Set background color for the container */
+    border: 2px solid #dfdfdf; /* Set border color and width */
+    border-radius: 10px; /* Set border radius for rounded corners */
+    padding: 20px; /* Add padding inside the container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    
+  }
+
+  .centered-text {
+    text-align: center; /* Center the specific text container horizontally */
+  }
+  
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    border-radius: 5px;
+    outline: none; /* Remove default outline on focus */
+  }
+  
+  h2 {
+    font-size: 24px; /* Set your desired font size */
+    text-align: center;
+  }
+
+  .button-container {
+    margin-top: 10px;
+    text-align: center; /* Center the button horizontally */
+  }
+  
+  .submit-button {
+    background-color: #4285f4;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+  }
+  
+  .submit-button:hover {
+    background-color: #5f9dff;
+  }
+
+  .button-container {
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .submit-button {
+    background-color: #4285f4;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+  }
+  
+  .submit-button:hover {
+    background-color: #5f9dff;
+  }
+  
+  .signup-button {
+    color: #4285f4; /* Set the desired color for the link */
+    text-decoration: underline; /* Add underline */
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    cursor: pointer;
+  }
+  
+  .signup-button:hover {
+    text-decoration: none; /* Remove underline on hover */
+  }
+

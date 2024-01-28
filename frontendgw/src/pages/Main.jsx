@@ -5,6 +5,7 @@ import SplitScreen from '../components/main-page/SplitScreen';
 import { db } from "../firebase/firestoreService";
 import { useUserInfo } from "../firebase/firebaseAuth";
 import { doc, getDoc } from "firebase/firestore";
+import Mainheader from "../components/web utils/mainheader";
 
 const Main = () => {
   // eslint-disable-next-line no-unused-vars
@@ -44,7 +45,10 @@ const Main = () => {
       {showWelcomeScreen ? (
         <WelcomeScreen />
       ) : (
-        <SplitScreen />
+        <div>
+          <Mainheader></Mainheader>
+          <SplitScreen />
+        </div>
       )}
     </div>
   );

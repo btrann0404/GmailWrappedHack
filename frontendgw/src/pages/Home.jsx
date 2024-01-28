@@ -1,36 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { useUserInfo } from "../firebase/firebaseAuth";
-import "./Home.css"
+import homeImage from "../assets/home_page.png";
+import "./cssPages/HomeCss.css";
+import Mainheader from "../components/web utils/mainheader";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const user = useUserInfo();
-
   return (
     <>
-      <header className="headerStyle">
-        <img className="logo" src="" alt="Gmail Wrapped"></img>
-        <nav>
-          <ul className="navStyle">
-            <li><a href="/signup">Sign Up</a></li>
-            <li><a href="/login">Login</a></li>
-          </ul>
-        </nav>
-      </header>
-
-      {user && (
-        <button className="p-2" onClick={() => navigate("/main")}>
-          Back To Main
-        </button>
-      )}
-      <h1>This is Home</h1>
-      <div className="card">
-        <button className="p-2" onClick={() => navigate("/login")}>
-          Login Here
-        </button>
-        <button className="p-2" onClick={() => navigate("/signup")}>
-          Signup Here
-        </button>
+      <Mainheader></Mainheader>
+      {/* Container for the home image */}
+      <div className="home-image-container">
+        <div className="home-image">
+          <img src={homeImage} alt="mainImage" />
+        </div>
       </div>
     </>
   );
