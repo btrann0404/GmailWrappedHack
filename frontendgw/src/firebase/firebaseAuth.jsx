@@ -1,8 +1,8 @@
 import app from "./firebaseConfig";
 import {
   getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 
@@ -10,48 +10,46 @@ const auth = getAuth(app);
 
 export const getEmails = async () => {};
 
-export const signInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  provider.addScope("https://www.googleapis.com/auth/gmail.readonly"); // Adjust the scope as needed
-
+export const signUpWithEmail = async (email, password) => {
+  const auth = getAuth();
   try {
-    const auth = getAuth();
-    const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    return credential.accessToken; // Return the Google OAuth token
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    console.log("User created successfully with email:", user.email);
   } catch (error) {
-    console.error("Error signing in with Google:", error);
+    console.error("Error signing up:", error);
     throw error;
   }
 };
-// export const signInWithGoogle = async () => {
-//   const provider = new GoogleAuthProvider();
-// //   provider.addScope("https://www.googleapis.com/auth/gmail.readonly");
 
-//   try {
-//     const auth = getAuth();
-//     const result = await signInWithPopup(auth, provider);
+export const loginWithEmail = async (email, password) => {
+  const auth = getAuth();
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    // User signed in successfully.
+    const user = userCredential.user;
+    console.log("User signed in:", user.email);
+  } catch (error) {
+    console.error("Error signing in:", error);
+    throw error;
+  }
+};
 
-//     // This gives you a Google Access Token.
-//     const credential = GoogleAuthProvider.credentialFromResult(result);
-//     console.log("credential: " , credential)
-//     const googleToken = credential.accessToken;
-//     console.log("googleToken: " , credential)
-
-//     return googleToken; // This is the Google OAuth token
-//   } catch (error) {
-//     console.error("Error signing in with Google: ", error);
-//     throw error;
-//   }
-// };
-
-export const signOutWithGoogle = async () => {
+export const signOutUser = async () => {
+  const auth = getAuth();
   try {
     await signOut(auth);
     console.log("User signed out successfully");
-    // Redirect or perform other actions post sign-out
   } catch (error) {
-    console.error("Error signing out: ", error);
-    // Handle any errors during sign-out
+    console.error("Error signing out:", error);
+    throw error;
   }
 };

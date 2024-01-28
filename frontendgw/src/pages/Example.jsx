@@ -2,23 +2,11 @@ import React from "react";
 import { addData } from "../firebase/firestoreService";
 import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
-import { signOutWithGoogle } from "../firebase/firebaseAuth";
 import { useNavigate } from "react-router-dom";
 import Testing from "../testing";
 
 const Example = () => {
   const navigate = useNavigate();
-  const handleSignout = async (event) => {
-    event.preventDefault();
-
-    try {
-      await signOutWithGoogle();
-      navigate("/signup");
-    } catch (error) {
-      console.error("Error during sign out:", error);
-      // Handle any errors that occur during sign-in here
-    }
-  };
 
   return (
     <>
@@ -34,7 +22,7 @@ const Example = () => {
       <h1 className="text-3xl font-bold underline">Gmail Wrapped</h1>
       <Testing></Testing>
       <div className="card">
-        <button onClick={handleSignout}>Signout</button>
+        <button>Signout</button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>

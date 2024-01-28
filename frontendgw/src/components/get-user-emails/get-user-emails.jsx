@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import db from "../../firebaseConfig";
+import db from "../../firebase/firebaseConfig";
 import { query, collection, where, getDocs } from "firebase/firestore";
 
 const GetUsersEmails = () => {
