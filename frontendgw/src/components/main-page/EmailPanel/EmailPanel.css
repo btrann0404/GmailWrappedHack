@@ -33,8 +33,10 @@ margin: 0;
 
 /* Style for the email body section */
 .email-body {
-margin-bottom: 15px;
-overflow-y: scroll;
+  margin-bottom: 15px;
+  padding: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 

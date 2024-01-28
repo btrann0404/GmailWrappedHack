@@ -109,6 +109,40 @@ def authenticate_user_route():
     outcome = authenticate_user(id)
     return outcome
 
+@app.route("/addkeyword", methods=['POST'])
+def add_keyword_route():
+    data = request.get_json()
+    id = data.get('userID')
+    keyword = data.get('keyword')
+
+    profile_ref = db.collection('profiles').document(id).get()
+    profile_data = profile_ref.to_dict()
+    profile_ref = db.collection('profiles').document(id)
+
+    # Append the new email to the existing list
+    profile_data['keywords'].append(key)
+
+    # Update the profile data in Firestore
+    profile_ref.set(profile_data)
+    return 200
+
+@app.route("/addbannedword", methods=['POST'])
+def add_bannedword_route():
+    data = request.get_json()
+    id = data.get('userID')
+    banwords = data.get('bannedword')
+
+    profile_ref = db.collection('profiles').document(id).get()
+    profile_data = profile_ref.to_dict()
+    profile_ref = db.collection('profiles').document(id)
+
+    # Append the new email to the existing list
+    profile_data['bannedwords'].append(banword)
+
+    # Update the profile data in Firestore
+    profile_ref.set(profile_data)
+    return 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
