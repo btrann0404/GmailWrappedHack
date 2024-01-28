@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useUserInfo } from "../../firebase/firebaseAuth";
+import { Button } from "@chakra-ui/react";
 
 // user id is passed in to link emails to id
 const AuthenticateUser = () => {
@@ -19,9 +20,14 @@ const AuthenticateUser = () => {
   };
 
   return (
-    <div>
-        <button onClick={handleSubmit} style={{ border: 'solid' }}>Add Gmail Account</button>
-    </div>
+    <Button
+        onClick={handleSubmit}
+        colorScheme="blue"
+        borderRadius="full"
+        fontSize="2xl"
+      >
+        +
+      </Button>
   );
 };
 

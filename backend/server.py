@@ -32,6 +32,7 @@ cred = credentials.Certificate('firebase-credentials-python.json')
 default_app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+
 def get_user_email(creds):
     # Build the service for the People API
     people_service = build('people', 'v1', credentials=creds)
@@ -90,9 +91,11 @@ def get_emails_route():
     data = request.get_json()
     emails = data.get('emails')
     categories = data.get('categories')
+    banned = data.get('banned')
     emailList = getEmails(emails)  # Call your getEmails function
     #subjectLines = getSubjectLines(emailList)
-    organizedEmails = organizeEmails(emailList, categories)
+    organizedEmails = organizeEmails(emailList, categories, banned)
+    del organizedEmails["Miscellaneous"]
 
     for category, emails in organizedEmails.items():
         for email in emails:
@@ -120,17 +123,17 @@ def add_keyword_route():
     profile_ref = db.collection('profiles').document(id)
 
     # Append the new email to the existing list
-    profile_data['keywords'].append(key)
+    profile_data['keywords'].append(keyword)
 
     # Update the profile data in Firestore
     profile_ref.set(profile_data)
-    return 200
+    return "200"
 
 @app.route("/addbannedword", methods=['POST'])
 def add_bannedword_route():
     data = request.get_json()
     id = data.get('userID')
-    banwords = data.get('bannedword')
+    banword = data.get('bannedword')
 
     profile_ref = db.collection('profiles').document(id).get()
     profile_data = profile_ref.to_dict()
@@ -141,8 +144,58 @@ def add_bannedword_route():
 
     # Update the profile data in Firestore
     profile_ref.set(profile_data)
-    return 200
+    return "200"
 
+@app.route("/removekeyword", methods=['POST'])
+def remove_keyword_route():
+    data = request.get_json()
+    id = data.get('userID')
+    keyword = data.get('keyword')
+
+    profile_ref = db.collection('profiles').document(id).get()
+    profile_data = profile_ref.to_dict()
+    profile_ref = db.collection('profiles').document(id)
+
+    # Remove the new email to the existing list
+    profile_data['keywords'].remove(keyword)
+
+    # Update the profile data in Firestore
+    profile_ref.set(profile_data)
+    return "200"
+
+@app.route("/removebannedword", methods=['POST'])
+def remove_bannedword_route():
+    data = request.get_json()
+    id = data.get('userID')
+    banword = data.get('bannedword')
+
+    profile_ref = db.collection('profiles').document(id).get()
+    profile_data = profile_ref.to_dict()
+    profile_ref = db.collection('profiles').document(id)
+
+    # Remove the new email to the existing list
+    profile_data['bannedwords'].remove(banword)
+
+    # Update the profile data in Firestore
+    profile_ref.set(profile_data)
+    return "200"
+
+@app.route("/removeemail", methods=['POST'])
+def remove_email_route():
+    data = request.get_json()
+    id = data.get('userID')
+    email = data.get('useremail')
+
+    profile_ref = db.collection('profiles').document(id).get()
+    profile_data = profile_ref.to_dict()
+    profile_ref = db.collection('profiles').document(id)
+
+    # Remove the new email to the existing list
+    profile_data['gmail_list'].remove(email)
+
+    # Update the profile data in Firestore
+    profile_ref.set(profile_data)
+    return "200"
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -10,7 +10,7 @@
     width: 100vw;
     height: 100vh;
     z-index: 5;
-    animation: logoFade 3s ease forwards;
+    animation: logoFade 1s ease forwards;
     position: absolute;
     top: 0%;
     left: 0%;
@@ -31,7 +31,7 @@
     0%{
         opacity: 0;
     }
-    25%, 75% {
+    20%, 75% {
         opacity: 1;
     }
     100% {
@@ -55,7 +55,7 @@
   }
   
   .fade-in {
-    animation: fadein 1s ease forwards;
+    animation: fadein 0.5s ease forwards;
     margin: 0;
     padding: 0;
     flex-direction: column;

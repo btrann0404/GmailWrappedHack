@@ -20,10 +20,12 @@ const GetUsersEmails = ({ onDataFetched }) => {
       try {
         const userEmails = await getUserEmailsById(currentUser.uid);
         const userCategories = await getCategories(currentUser.uid);
+        const bannedwords = await getBannedWords(currentUser.uid);
 
         const response = await axios.post("http://localhost:5000/getemails", {
           emails: userEmails,
           categories: userCategories,
+          banned: bannedwords
         });
 
         setUserEmails(response.data);
@@ -69,6 +71,20 @@ const GetUsersEmails = ({ onDataFetched }) => {
       }
     } catch (error) {
       console.error("Error fetching user by ID:", error);
+      throw error;
+    }
+  };
+
+  const getBannedWords = async (currentUser) => {
+    const userRef = doc(db, "profiles", currentUser);
+    try {
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        return userDoc.data().bannedwords;
+      }
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
       throw error;
     }
   };

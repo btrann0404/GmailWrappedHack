@@ -14,12 +14,13 @@ import {
   Input,
 } from "@chakra-ui/react";
 
-function FormModal({ subject }) {
+function FormModal({ formType, onSubmit }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = () => {
-    console.log(inputValue); // Process the input value
+    // Call the onSubmit function with the input value and formType
+    onSubmit(inputValue, formType);
     onClose(); // Close the modal
   };
 
@@ -37,7 +38,7 @@ function FormModal({ subject }) {
       <Modal className="bg-white" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{subject} Form</ModalHeader>
+          <ModalHeader>{formType === "banned" ? "Add Banned Word" : "Add Keyword"}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl>

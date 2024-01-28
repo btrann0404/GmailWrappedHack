@@ -35,7 +35,7 @@ const Main = () => {
     const fadeTimer = setTimeout(() => {
       setShowWelcomeScreen(false);
       setWelcomeScreenFaded(true);
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(fadeTimer);
   }, []);

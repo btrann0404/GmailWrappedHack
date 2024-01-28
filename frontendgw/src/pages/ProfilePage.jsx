@@ -6,6 +6,15 @@ import "./cssPages/ProfilePage.css";
 import FormModal from "../components/chakra/formmodal";
 import { Divider } from "@chakra-ui/react";
 import Mainheader from "../components/web utils/mainheader";
+import { IconButton } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
+
+import { AddBannedword } from "../components/key-ban-words/add-banned";
+import { AddKeyword } from "../components/key-ban-words/add-keyword";
+import { RemoveKeyword } from "../components/key-ban-words/remove-keyword";
+import { RemoveBannedword } from "../components/key-ban-words/remove-banned";
+import { RemoveEmail } from "../components/key-ban-words/remove-email";
+import AuthenticateUser from "../components/authenticate-user/authenticate-user";
 
 const ProfilePage = () => {
   const currentUser = useUserInfo();
@@ -34,6 +43,17 @@ const ProfilePage = () => {
   if (!currentUser) {
     return <div>User not found or not logged in.</div>;
   }
+
+  const handleFormSubmit = (text, formType) => {
+    console.log(`Text submitted for ${formType}:`, text);
+    if (formType === "banned") {
+      // Add the text as a banned word
+      AddBannedword(text, currentUser)
+    } else if (formType === "keyword") {
+      // Add the text as a keyword
+      AddKeyword(text, currentUser)
+    }
+  };
 
   // check if userProfile is not null before rendering
   return (
@@ -72,7 +92,7 @@ const ProfilePage = () => {
           <div className="flex flex-col bg-white h-[80vh] w-[30vw] rounded-xl p-5 overflow-auto">
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-3xl font-bold mb-4">Gmail List</h1>
-              <FormModal subject="Form Here"></FormModal>
+                <AuthenticateUser></AuthenticateUser>
             </div>
             <Divider></Divider>
             <div className="flex flex-col">
@@ -81,8 +101,16 @@ const ProfilePage = () => {
                 userProfile.gmail_list.map((email, index) => (
                   <p key={index} className="py-1">
                     <div className=" text-base justify-between flex flex-row p-5 bg-blue-100 rounded-lg">
-                      <div>Gmail</div>
                       <div>{email}</div>
+                      <div>
+                        <IconButton
+                            icon={<CloseIcon />}
+                            size="sm" // Adjust the size as needed (sm for small)
+                            variant="ghost" // You can change the variant as needed
+                            colorScheme="gray" // You can change the color scheme as needed
+                            onClick={() => RemoveEmail(email, currentUser)}
+                          />
+                      </div>
                     </div>
                   </p>
                 ))}
@@ -91,7 +119,7 @@ const ProfilePage = () => {
           <div className="flex flex-col bg-white h-[80vh] w-[30vw] rounded-xl p-5 overflow-auto">
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-3xl font-bold mb-4">Keyword List</h1>
-              <FormModal subject="Add Keyword"></FormModal>
+              <FormModal formType="keyword" subject="Add Keyword" onSubmit={handleFormSubmit} />
             </div>
             <Divider></Divider>
             <div className="flex flex-col">
@@ -100,8 +128,17 @@ const ProfilePage = () => {
                 userProfile.keywords.map((keyword, index) => (
                   <p key={index} className="py-1">
                     <div className=" text-base justify-between flex flex-row p-5 bg-blue-100 rounded-lg">
-                      <div>Keyword {index + 1} </div>
                       <div>{keyword}</div>
+                      <div>
+                      <IconButton
+                          icon={<CloseIcon />}
+                          size="sm" // Adjust the size as needed (sm for small)
+                          variant="ghost" // You can change the variant as needed
+                          colorScheme="gray" // You can change the color scheme as needed
+                          onClick={() => RemoveKeyword(keyword, currentUser)}
+                        />
+                      </div>
+                
                     </div>
                   </p>
                 ))}
@@ -110,7 +147,7 @@ const ProfilePage = () => {
           <div className="flex flex-col bg-white h-[80vh] w-[30vw] rounded-xl p-5 overflow-auto">
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-3xl font-bold mb-4">Banned Words List</h1>
-              <FormModal subject="Add Banned Words"></FormModal>
+              <FormModal formType="banned" subject="Add Banned Words" onSubmit={handleFormSubmit} />
             </div>
             <Divider></Divider>
             <div className="flex flex-col">
@@ -119,8 +156,17 @@ const ProfilePage = () => {
                 userProfile.bannedwords.map((word, index) => (
                   <p key={index} className="py-1">
                     <div className=" text-base justify-between flex flex-row p-5 bg-blue-100 rounded-lg">
-                      <div>Word {index + 1}</div>
                       <div>{word}</div>
+                      <div>
+                      <IconButton
+                        style={{ alignSelf: "right" }}
+                        icon={<CloseIcon />}
+                        size="sm" // Adjust the size as needed (sm for small)
+                        variant="ghost" // You can change the variant as needed
+                        colorScheme="gray" // You can change the color scheme as needed
+                        onClick={() => RemoveBannedword(word, currentUser)}
+                      />
+                      </div>
                     </div>
                   </p>
                 ))}
