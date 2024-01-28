@@ -4,7 +4,6 @@ import './EmailPanel.css';
 const EmailPanel = ({ selectedEmail, onSummarize, onReply, onDelete }) => {
   console.log(selectedEmail);
   if (!selectedEmail) {
-    // If no email is selected, you can display a placeholder or empty state
     return (
       <div className="email-panel-placeholder">
         <p>No email selected.</p>

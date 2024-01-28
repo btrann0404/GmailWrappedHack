@@ -4,7 +4,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    text-align: center; /* Center-align the entire content */
+    text-align: center;
   }
   
   header {
@@ -28,7 +28,7 @@ body {
     border: none;
     border-radius: .5rem;
     padding: 15px 30px;
-    margin: 10px auto; /* Center-align the buttons horizontally */
+    margin: 10px auto;
     cursor: pointer;
     font-size: 1.5em;
   }
@@ -45,6 +45,3 @@ body {
     margin: 20px;
     border-radius: 8px;
   }
-  
-  /* Additional styles as needed */
-  
