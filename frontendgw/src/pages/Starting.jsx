@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WelcomeScreen from '../WelcomeScreen/WelcomeScreen';
 import SplitScreen from '../SplitScreen';
-// import './App.css';
 
 const WelcomePage = () => {
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
