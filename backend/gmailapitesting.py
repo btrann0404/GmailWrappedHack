@@ -52,7 +52,7 @@ def getEmails(email_addresses):
 
                 service = build('gmail', 'v1', credentials=creds)
 
-                results = service.users().messages().list(userId='me', labelIds=['INBOX', 'CATEGORY_PERSONAL'], maxResults=8).execute()
+                results = service.users().messages().list(userId='me', labelIds=['INBOX', 'CATEGORY_PERSONAL'], maxResults=10).execute()
                 messages = results.get('messages', [])
     
                 for message in messages:
