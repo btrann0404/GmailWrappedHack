@@ -1,17 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  loginWithEmail,
+  useUserInfo,
+  signOutUser,
+} from "../firebase/firebaseAuth";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const user = useUserInfo();
+
+  useEffect(() => {
+    if (user) {
+      console.log("User is already logged in. Signing out...");
+      signOutUser().then(() => {
+        console.log("User signed out successfully.");
+      });
+    }
+  }, [user]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle login logic here
-    console.log("Login with:", email, password);
+    await loginWithEmail(email, password);
+    // console.log("Login with:", email, password);
+    navigate("/main");
   };
 
   return (
     <div>
+      <button className="p-2" onClick={() => navigate("/")}>
+        Home Page
+      </button>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -34,6 +56,7 @@ function Login() {
         </div>
         <button type="submit">Submit</button>
       </form>
+      <button onClick={() => navigate("/signup")}>Signup</button>
     </div>
   );
 }
