@@ -30,10 +30,10 @@ const Home = () => {
           Back To Main
         </button>
       )}
-      <h1>Get Started Here!</h1>
-      <div></div>
 
       <div className="card">
+      <h1>Get Started Here!</h1>
+      <div></div>
         <button className="p-2" onClick={() => navigate("/login")}>
           Login
         </button>
