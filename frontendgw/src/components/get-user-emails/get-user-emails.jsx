@@ -40,7 +40,7 @@ const GetUsersEmails = () => {
       setUserEmails(response.data);
     } catch (err) {
       console.error("Error fetching user emails:", err);
-      setError("Failed t  o fetch user emails.");
+      setError("Failed to fetch user emails.");
     }
   };
 
