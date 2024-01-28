@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firestoreService";
 import { doc, setDoc } from "firebase/firestore";
 
+
 function Signup() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -16,16 +17,16 @@ function Signup() {
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState(""); // State for error messages
 
-  const user = useUserInfo();
+  // const user = useUserInfo();
 
-  useEffect(() => {
-    if (user) {
-      console.log("User is already logged in. Signing out...");
-      signOutUser().then(() => {
-        console.log("User signed out successfully.");
-      });
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("User is already logged in. Signing out...");
+  //     signOutUser().then(() => {
+  //       console.log("User signed out successfully.");
+  //     });
+  //   }
+  // }, [user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
