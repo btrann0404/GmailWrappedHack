@@ -8,6 +8,7 @@ import {
 } from "../firebase/firebaseAuth";
 import Mainheader from "../components/web utils/mainheader";
 import "./cssPages/LoginCss.css";
+import { Input, FormLabel } from "@chakra-ui/react";
 
 function Login() {
   const navigate = useNavigate();
@@ -35,53 +36,52 @@ function Login() {
     <div>
       <Mainheader></Mainheader>
       <div className="body">
-      <div className="welcome-container">
-        <p className="welcome">Welcome Back!</p>
-      </div>
-      <div className="login-container">
-        <button className="p-2" onClick={() => navigate("/")}>
-        ⬅ Go back
-        </button>
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Email:</label>
-            <input
-              className="outline"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              className="outline"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="button-container">
-            <button type="submit" className="submit-button">
-              Submit
+        <div className="welcome-container">
+          <p className="welcome">Welcome Back!</p>
+        </div>
+        <div className="login-container w-[40vw] h-[30vw]">
+          <button className="p-2" onClick={() => navigate("/")}>
+            ⬅ Go back
+          </button>
+          <h2>Login</h2>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <FormLabel>Email:</FormLabel>
+              <Input
+                className="outline"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{marginBottom: "2em"}}
+              />
+            </div>
+            <div>
+              <FormLabel>Password:</FormLabel>
+              <Input
+                className="outline"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{marginBottom: "2em"}}
+              />
+            </div>
+            <div className="button-container">
+              <button className="submit-button" style={{marginBottom: "2em"}}>Submit</button>
+            </div>
+          </form>
+          <div className="centered-text">
+            Don't have an account?{" "}
+            <button
+              className="signup-button"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up Here
             </button>
           </div>
-        </form>
-        <div className="centered-text">
-        Don't have an account? {' '}
-        <button
-          className="signup-button"
-          onClick={() => navigate("/signup")}
-        >
-           Sign Up Here
-        </button>
+        </div>
       </div>
-      </div>
-    </div>
     </div>
   );
 }
 
 export default Login;
-

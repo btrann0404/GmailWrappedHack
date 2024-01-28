@@ -9,7 +9,7 @@ def truncate_text(text, max_length=6000):
     return text
 
 def categorize(email_body, categories, banned):
-    prompt = "I want you to categorize this into separate categories and only respond with a the single word: "
+    prompt = "I want you to categorize this into separate categories but if its unreadable for a human respond with the one word Unreadable but always only respond with a the single word: "
     catstring = ", ".join(categories)
     prompt += catstring
 

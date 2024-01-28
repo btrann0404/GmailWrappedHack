@@ -95,7 +95,7 @@ def get_emails_route():
     emailList = getEmails(emails)  # Call your getEmails function
     #subjectLines = getSubjectLines(emailList)
     organizedEmails = organizeEmails(emailList, categories, banned)
-    del organizedEmails["Miscellaneous"]
+    del organizedEmails["Unreadable"]
 
     for category, emails in organizedEmails.items():
         for email in emails:

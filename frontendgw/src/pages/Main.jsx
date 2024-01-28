@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import WelcomeScreen from '../components/main-page/WelcomeScreen/WelcomeScreen';
-import SplitScreen from '../components/main-page/SplitScreen';
+import { useState, useEffect } from "react";
+import WelcomeScreen from "../components/main-page/WelcomeScreen/WelcomeScreen";
+import SplitScreen from "../components/main-page/SplitScreen";
 
 import { db } from "../firebase/firestoreService";
 import { useUserInfo } from "../firebase/firebaseAuth";
@@ -35,13 +35,13 @@ const Main = () => {
     const fadeTimer = setTimeout(() => {
       setShowWelcomeScreen(false);
       setWelcomeScreenFaded(true);
-    }, 1000);
+    }, 3000);
 
     return () => clearTimeout(fadeTimer);
   }, []);
 
   return (
-    <div className={`app-container ${welcomeScreenFaded ? 'fade-out' : ''}`}>
+    <div className={`app-container ${welcomeScreenFaded ? "fade-out" : ""}`}>
       {showWelcomeScreen ? (
         <WelcomeScreen />
       ) : (

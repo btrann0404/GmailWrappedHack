@@ -95,7 +95,7 @@ def getEmails(email_addresses):
 def organizeEmails(emailList, categories, banned):  
     # emailList is a list of emails with the subject, sender, body, date
     category_lists = {category: [] for category in categories}
-    category_lists["Miscellaneous"] = []
+    category_lists["Unreadable"] = []
 
     for email in emailList:
         tempemail = categorize(email["Body"].decode('utf-8', errors='replace'), categories, banned)
