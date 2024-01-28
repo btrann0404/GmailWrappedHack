@@ -12,9 +12,6 @@
     z-index: 5;
     animation: logoFade 3s ease forwards;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
 .welcome-screen img {
@@ -33,3 +30,11 @@
         opacity: 0;
     }
   }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .welcome-screen img {
+    max-width: 60%;
+    max-height: 60%;
+  }
+}

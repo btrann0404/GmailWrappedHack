@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import WelcomeScreen from './WelcomeScreen/WelcomeScreen';
-import './App.css';
 import SplitScreen from './SplitScreen';
-import Inbox from './Inbox/Inbox';
+import './App.css';
 
 const App = () => {
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
+  const [welcomeScreenFaded, setWelcomeScreenFaded] = useState(false);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => {
+      setShowWelcomeScreen(false);
+      setWelcomeScreenFaded(true);
+    }, 3000);
+
+    return () => clearTimeout(fadeTimer);
+  }, []);
+
   return (
-    <div>
-      <WelcomeScreen />
-      <SplitScreen />
+    <div className={`app-container ${welcomeScreenFaded ? 'fade-out' : ''}`}>
+      {showWelcomeScreen ? (
+        <WelcomeScreen />
+      ) : (
+        <SplitScreen />
+      )}
     </div>
   );
 };
