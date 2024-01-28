@@ -1,10 +1,20 @@
 import { useState } from "react";
 import axios from "axios";
 import db from "../../firebase/firebaseConfig";
-import { query, collection, where, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+
+
+// Collects emails based on signed in user's ID (yet to implement)
+// then makes a post request to server.py with a list of the user's categories/keywords
+// and a list of emails for the Gmail API
+
+// handleSubmit is what occurs when a user will click "Add Google Account" and has two sub functions to work
+// the first is getUserEmailsById which uses the user's id to get their emails from the database
+// the second is getCategories which uses the user's keywords/categories in the same way
+// After the post request emails are being displayed below in HTML with mapping to put them in their
+// correct order and categories
 
 const GetUsersEmails = () => {
-  const [email, setEmail] = useState("");
   const [userEmails, setUserEmails] = useState([]);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState([]);
@@ -15,70 +25,71 @@ const GetUsersEmails = () => {
 
     try {
       // First, get the categories associated with the entered email
-      const userCategories = await getCategories(email);
+      const userEmails = await getUserEmailsById()
+      const userCategories = await getCategories();
 
       // Then, send both the email and categories to your Flask backend
       const response = await axios.post("http://localhost:5000/getemails", {
-        email,
+        emails: userEmails,
         categories: userCategories,
       });
 
       // Assuming the response data is the list of user emails
+      console.log("returned")
+      console.log(response.data)
       setUserEmails(response.data);
     } catch (err) {
       console.error("Error fetching user emails:", err);
-      setError("Failed to fetch user emails.");
+      setError("Failed t  o fetch user emails.");
     }
   };
 
-  const getCategories = async (email) => {
-    const usersRef = collection(db, "matt_users_test");
-    const q = query(usersRef, where("email", "==", email));
+  const getCategories = async (/** needs to be user id **/) => {
+    const userRef = doc(db, "profiles", "ZVtOCmDuhOYHZD96WPPrmE7cLrJ3");
+      try {
+        const userDoc = await getDoc(userRef);
+    
+        if (userDoc.exists()) {
+          console.log("User data:", userDoc.data());
+          setCategories(userDoc.data().keywords);
+          return userDoc.data().keywords;
+        }
+      } catch (error) {
+        console.error("Error fetching user by email:", error);
+        throw error;
+      }
+    };
 
+  const getUserEmailsById = async (/** needs to be user id **/) => {
+    const userRef = doc(db, "profiles", "ZVtOCmDuhOYHZD96WPPrmE7cLrJ3");
     try {
-      const querySnapshot = await getDocs(q);
-      console.log(querySnapshot);
-      const userData = [];
-
-      querySnapshot.forEach((doc) => {
-        userData.push(doc.data());
-      });
-
-      // Assuming "keywords" is the field you want to extract
-      const userCategories = userData.map((data) => data.keywords);
-      console.log(userCategories);
-
-      // Update the state with the retrieved categories
-      setCategories(userCategories.flat()); // Flatten the array if needed
-
-      return userCategories;
+      const userDoc = await getDoc(userRef);
+  
+      if (userDoc.exists()) {
+        console.log("User data:", userDoc.data());
+        return userDoc.data().gmail_list; // Assuming the email field is named 'email'
+      } else {
+        console.log("No such user!");
+        return null;
+      }
     } catch (error) {
-      console.error("Error fetching user by email:", error);
+      console.error("Error fetching user by ID:", error);
       throw error;
     }
   };
 
+
   return (
-    <div>
+  <div>
       <form onSubmit={handleSubmit}>
-        {/* <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /> */}
-        <button type="submit" className="outline bg-cyan-300">
-          Look at Emails
-        </button>
+        <button type="submit">Submit</button>
       </form>
 
       {error && <p>Error: {error}</p>}
 
       <h2>User Emails</h2>
       {categories.map((category, index) => (
-        <div key={index}>
+        <div key={index}> 
           <h3>{category}</h3>
           {userEmails[category]?.map((emailData, emailIndex) => (
             <div key={emailIndex}>

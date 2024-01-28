@@ -4,7 +4,7 @@ import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 const UserSearchForm = ({ getUserByEmail }) => {
-  const [email, setEmail] = useState("");
+  const [email] = useState("");
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState("");
 
