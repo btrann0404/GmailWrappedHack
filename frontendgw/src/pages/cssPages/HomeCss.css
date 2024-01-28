@@ -1,0 +1,50 @@
+/* HomeCss.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center; /* Center-align the entire content */
+  }
+  
+  header {
+    text-align: center;
+  }
+  
+  .home-logo {
+    margin: 20px;
+  }
+  
+  .logo-button {
+    cursor: pointer;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  button {
+    display: flex;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: .5rem;
+    padding: 15px 30px;
+    margin: 10px auto; /* Center-align the buttons horizontally */
+    cursor: pointer;
+    font-size: 1.5em;
+  }
+  
+  h1 {
+    color: #333;
+    text-align: center;
+    font-size: 2em;
+  }
+  
+  .card {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+  }
+  
+  /* Additional styles as needed */
+  

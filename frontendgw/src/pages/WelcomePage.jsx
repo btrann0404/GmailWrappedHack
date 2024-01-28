@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WelcomeScreen from '../WelcomeScreen/WelcomeScreen';
 import SplitScreen from '../SplitScreen';
 
+
 const WelcomePage = () => {
   const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
   const [welcomeScreenFaded, setWelcomeScreenFaded] = useState(false);
