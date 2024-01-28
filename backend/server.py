@@ -78,11 +78,12 @@ def authenticate_user(id):
 def home():
     print({"home", "here"})
 
-@app.route('/summarize-article') #deal with later
+@app.route('/summarize-article', methods=['POST']) #deal with later
 def summarize_article_route():
-    emails = getEmails()
-    email_body_str = emails[0]["Body"].decode('utf-8', errors='replace')
-    return summarize(email_body_str)
+    data = request.get_json()
+    text = data.get('body')
+    print(text[:20])
+    return summarize(text)
 
 @app.route('/getemails', methods=['POST']) 
 def get_emails_route():

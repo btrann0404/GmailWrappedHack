@@ -12,6 +12,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+
 # Main function getEmails takes a list of email addresses, finds matching tokens in the user_tokens collections
 # of our database, and then returns a list of dictionaries with the form:
 # [{"Subject": subject, "Sender": sender, "Body": body, "Datetime": datetime}, ...]

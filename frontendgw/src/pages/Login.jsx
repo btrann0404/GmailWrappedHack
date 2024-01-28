@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   loginWithEmail,
@@ -25,7 +25,6 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await loginWithEmail(email, password);
-    // console.log("Login with:", email, password);
     navigate("/main");
   };
 

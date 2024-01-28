@@ -1,0 +1,119 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+/* Apply the font-family globally */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Your custom styles go here */
+.inbox-container {
+  @apply w-1/2 border-r border-blue-300;
+  display: flex;
+  flex-direction: column;
+  max-height: 95vh;
+}
+
+.email-item {
+  @apply cursor-pointer p-2 my-1 border-b border-gray-200;
+}
+
+.email-item:hover {
+  @apply bg-gray-100;
+}
+
+/* Inbox.css */
+
+/* Search Button */
+.search-bar {
+  display: flex;
+}
+
+.search-input {
+  padding: 0.7rem;
+  margin-left: 0rem;
+  margin-right: 0.5rem;
+  margin-top: 0.7rem;
+  margin-bottom: 2rem;
+  background-color: #dcf0ff;
+  border: 1px solid #868383;
+  border-radius: 3rem;
+  width: 100%;
+}
+
+.search-button {
+  padding: 0.7rem;
+  margin-left: 0.7rem;
+  margin-right: 0.2rem;
+  margin-top: 0.7rem;
+  margin-bottom: 2rem;
+  background-color: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.search-button:hover{
+  background-color: #dcf0ff;
+}
+
+
+
+/* catergory buttons*/
+.category-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .category-tab {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 3rem;
+    margin-right: .5rem;
+    margin-left: .5rem;
+    margin-bottom: 1rem;
+    background-color: #e2e8f0; /* Default background color */
+    border-radius: 1rem;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+  }
+
+  .hidden {
+    display: none;
+  }
+  
+  .category-tab.selected {
+    display: flex;
+  }
+
+  .category-tab:hover {
+    background-color: #cbd5e0; /* Background color on hover */
+  }
+  
+  .selected {
+    background-color: #4a5568; /* Background color for selected tab */
+    color: #ffffff; /* Text color for selected tab */
+  }
+
+  /* Make the Inbox take up the whole screen on small screens */
+    @media (max-width: 640px) {
+    .inbox-container {
+      width: 100%;
+    }
+  }
+
+  /* email list when a category is clicked */
+  .email-list {
+    margin-top: 20px; /* Add spacing between category tabs and email list */
+  }
+  
+  .email-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: .5rem;
+    margin-left: .5rem;
+
+  }
+  

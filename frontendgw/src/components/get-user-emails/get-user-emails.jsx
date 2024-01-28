@@ -1,74 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { db } from "../../firebase/firestoreService";
 import { doc, getDoc } from "firebase/firestore";
 import { useUserInfo } from "../../firebase/firebaseAuth";
 
-// Collects emails based on signed in user's ID (yet to implement)
-// then makes a post request to server.py with a list of the user's categories/keywords
-// and a list of emails for the Gmail API
-
-// handleSubmit is what occurs when a user will click "Add Google Account" and has two sub functions to work
-// the first is getUserEmailsById which uses the user's id to get their emails from the database
-// the second is getCategories which uses the user's keywords/categories in the same way
-// After the post request emails are being displayed below in HTML with mapping to put them in their
-// correct order and categories
-
-const GetUsersEmails = () => {
+const GetUsersEmails = ({ onDataFetched }) => {
   const [userEmails, setUserEmails] = useState([]);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState([]);
+  const [loaded, setLoaded] = useState(false); // State to track initial load
   const currentUser = useUserInfo();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  useEffect(() => {
+    const fetchData = async () => {
+      setError("");
 
-    try {
-      // First, get the categories associated with the entered email
-      const userEmails = await getUserEmailsById(currentUser.uid)
-      const userCategories = await getCategories(currentUser.uid);
-
-      // Then, send both the email and categories to your Flask backend
-      const response = await axios.post("http://localhost:5000/getemails", {
-        emails: userEmails,
-        categories: userCategories,
-      });
-
-      // Assuming the response data is the list of user emails
-      console.log("returned")
-      console.log(response.data)
-      setUserEmails(response.data);
-    } catch (err) {
-      console.error("Error fetching user emails:", err);
-      setError("Failed t  o fetch user emails.");
-    }
-  };
-
-  const getCategories = async (currentUser) => {
-    const userRef = doc(db, "profiles", currentUser);
       try {
-        const userDoc = await getDoc(userRef);
-    
-        if (userDoc.exists()) {
-          console.log("User data:", userDoc.data());
-          setCategories(userDoc.data().keywords);
-          return userDoc.data().keywords;
-        }
-      } catch (error) {
-        console.error("Error fetching user by email:", error);
-        throw error;
+        const userEmails = await getUserEmailsById(currentUser.uid);
+        const userCategories = await getCategories(currentUser.uid);
+
+        const response = await axios.post("http://localhost:5000/getemails", {
+          emails: userEmails,
+          categories: userCategories,
+        });
+
+        setUserEmails(response.data);
+        onDataFetched(response.data);
+        setLoaded(true); // Set loaded to true after initial load
+      } catch (err) {
+        console.error("Error fetching user emails:", err);
+        setError("Failed to fetch user emails.");
       }
     };
 
-  const getUserEmailsById = async (currentUser) => {
-        const userRef = doc(db, "profiles", currentUser);
+    // Run the initial data fetch when the component is loaded
+    if (!loaded) {
+      fetchData();
+    }
+  }, [currentUser, loaded, onDataFetched]);
+
+  const getCategories = async (currentUser) => {
+    const userRef = doc(db, "profiles", currentUser);
     try {
       const userDoc = await getDoc(userRef);
-  
+
       if (userDoc.exists()) {
-        console.log("User data:", userDoc.data());
-        return userDoc.data().gmail_list; // Assuming the email field is named 'email'
+        setCategories(userDoc.data().keywords);
+        return userDoc.data().keywords;
+      }
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
+      throw error;
+    }
+  };
+
+  const getUserEmailsById = async (currentUser) => {
+    const userRef = doc(db, "profiles", currentUser);
+    try {
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        return userDoc.data().gmail_list;
       } else {
         console.log("No such user!");
         return null;
@@ -79,29 +71,36 @@ const GetUsersEmails = () => {
     }
   };
 
+  const handleFetchData = async () => {
+    // Trigger data fetch when the button is clicked
+    setLoaded(false); // Set loaded to false to re-run initial fetch
+  };
 
   return (
-  <div>
-      <form onSubmit={handleSubmit}>
-        <button type="submit" style={{ border: 'solid' }}>Reload Emails</button>
-      </form>
+    <div>
+      <button onClick={handleFetchData} style={{ border: "solid" }}>
+        Reload Emails
+      </button>
 
-      {error && <p>Error: {error}</p>}
+      {/* {error && <p>Error: {error}</p>}
 
-      <h2>User Emails</h2>
-      {categories.map((category, index) => (
-        <div key={index}> 
-          <h3>{category}</h3>
-          {userEmails[category]?.map((emailData, emailIndex) => (
-            <div key={emailIndex}>
-              <p>Subject: {emailData.Subject}</p>
-              <p>Sender: {emailData.Sender}</p>
-              <p>Body: {emailData.Body}</p>
-              <hr />
+      {categories.length > 0 && (
+        <div>
+          {categories.map((category, index) => (
+            <div key={index}>
+              <h3>{category}</h3>
+              {userEmails[category]?.map((emailData, emailIndex) => (
+                <div key={emailIndex}>
+                  <p>Subject: {emailData.Subject}</p>
+                  <p>Sender: {emailData.Sender}</p>
+                  <p>Body: {emailData.Body}</p>
+                  <hr />
+                </div>
+              ))}
             </div>
           ))}
         </div>
-      ))}
+      )} */}
     </div>
   );
 };
