@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useUserInfo } from "../firebase/firebaseAuth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/firestoreService";
 import "./cssPages/ProfilePage.css";
 import FormModal from "../components/chakra/formmodal";
@@ -31,6 +31,13 @@ const ProfilePage = () => {
           } else {
             console.log("No such document!");
           }
+          onSnapshot(docRef, (snapshot) => {
+          if (snapshot.exists()) {
+            setUserProfile(snapshot.data());
+          } else {
+            console.log("No such document!");
+          }
+        });
         } catch (error) {
           console.error("Error fetching user profile:", error);
         }
@@ -43,6 +50,7 @@ const ProfilePage = () => {
   if (!currentUser) {
     return <div>User not found or not logged in.</div>;
   }
+
 
   const handleFormSubmit = (text, formType) => {
     console.log(`Text submitted for ${formType}:`, text);

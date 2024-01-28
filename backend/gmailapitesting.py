@@ -52,7 +52,7 @@ def getEmails(email_addresses):
 
                 service = build('gmail', 'v1', credentials=creds)
 
-                results = service.users().messages().list(userId='me', labelIds=['INBOX', 'CATEGORY_PERSONAL'], maxResults=10).execute()
+                results = service.users().messages().list(userId='me', labelIds=['INBOX', 'CATEGORY_PERSONAL'], maxResults=20).execute()
                 messages = results.get('messages', [])
     
                 for message in messages:
@@ -98,11 +98,12 @@ def organizeEmails(emailList, categories, banned):
     category_lists["Unreadable"] = []
 
     for email in emailList:
-        tempemail = categorize(email["Body"].decode('utf-8', errors='replace'), categories, banned)
-        if tempemail in category_lists:
-            category_lists[tempemail].append(email)
+        if email["Body"] != None:
+            tempemail = categorize(email["Body"].decode('utf-8', errors='replace'), categories, banned)
+            if tempemail in category_lists:
+                category_lists[tempemail].append(email)
     for category, emails in category_lists.items():
-        category_lists[category] = sorted(emails, key=lambda x: x['Datetime'], reverse=True)
+        category_lists[category] = sorted(emails, key=lambda x: x['Datetime'])
     print("organizeEmails worked!")
     return category_lists  # returns a dictionary of all the categories. each key is a category and each of those has a list of the emails
 

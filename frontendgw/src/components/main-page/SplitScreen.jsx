@@ -56,7 +56,7 @@ const SplitScreen = () => {
         <div className="signs-container">
           <button className="signs" onClick={handleSignout}>Signout</button>
         </div> */}
-      <div style={{ display: "flex" }}>
+      <div className="text-lg" style={{ display: "flex" }}>
         <GetUsersEmails onDataFetched={onDataReceived} />
         <Inbox onEmailClick={handleEmailClick} emailData={emailData} />
         <EmailPanel selectedEmail={selectedEmail} />

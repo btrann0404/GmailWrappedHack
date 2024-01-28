@@ -19,6 +19,7 @@ const Inbox = ({ onEmailClick, emailData }) => {
             sender: email["Sender"],
             category,
             body: email["Body"],
+            date: email["Datetime"]
           });
         });
       });
@@ -51,7 +52,7 @@ const Inbox = ({ onEmailClick, emailData }) => {
     .slice(0, 3);
 
   return (
-    <div className="inbox-container">
+    <div className="inbox-container text-lg">
       <div className="search-bar">
         <button className="search-button" onClick={() => handleSearch(searchQuery)}>
           🔍
@@ -64,6 +65,20 @@ const Inbox = ({ onEmailClick, emailData }) => {
           onChange={(e) => handleSearch(e.target.value)}
         />
       </div>
+
+      {/* Render top three search results based on the search query */}
+      {searchQuery !== '' && (
+        <div className="email-list">
+          {topThreeSearchResults.map((dummyEmail) => (
+            <div key={dummyEmail.category} className="email-item" onClick={() => onEmailClick(dummyEmail)}>
+              <p>
+                <strong>{dummyEmail.subject}</strong>
+              </p>
+              <p>Sender: {dummyEmail.sender}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="category-tabs">
         {categories.map((category) => (
@@ -84,20 +99,6 @@ const Inbox = ({ onEmailClick, emailData }) => {
         ))}
       </div>
 
-      {/* Render top three search results based on the search query */}
-      {searchQuery !== '' && (
-        <div className="email-list">
-          {topThreeSearchResults.map((dummyEmail) => (
-            <div key={dummyEmail.category} className="email-item" onClick={() => onEmailClick(dummyEmail)}>
-              <p>
-                <strong>{dummyEmail.subject}</strong>
-              </p>
-              <p>Sender: {dummyEmail.sender}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Render emails based on the selected category */}
       {selectedCategory !== null && searchQuery === '' && (
         <div className="email-list">
@@ -109,6 +110,7 @@ const Inbox = ({ onEmailClick, emailData }) => {
                   <strong>{dummyEmail.subject}</strong>
                 </p>
                 <p>Sender: {dummyEmail.sender}</p>
+                <p>Date: {dummyEmail.date}</p>
               </div>
             ))}
           <button onClick={handleGoBack}>Go Back</button>

@@ -44,7 +44,7 @@ function EmailPanel({ selectedEmail, onSummarize, onReply, onDelete })   {
         )}
       </div>
       <div className="email-actions">
-          <button onClick={handleSummarize}>
+          <button style={{fontSize:"0.9em"}}onClick={handleSummarize}>
               {showSummary ? 'Expand' : 'Summarize'} {/* Toggle button label */}
             </button>
       </div>

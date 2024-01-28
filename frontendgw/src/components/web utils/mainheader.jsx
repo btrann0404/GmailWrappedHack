@@ -23,7 +23,7 @@ const Mainheader = () => {
   };
 
   return (
-    <div className="max-w-full h-24 bg-white">
+    <div className="text-xl max-w-full h-24 bg-white">
       <header className="max-w-full">
         <div className="flex flex-row justify-between items-center px-4 py-2 pt-5">
           {" "}
