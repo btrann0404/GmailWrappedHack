@@ -2,8 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import myLogo from "../../assets/GW_LOGO.png";
-import { useUserInfo } from "../../firebase/firebaseAuth";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { signOutUser, useUserInfo } from "../../firebase/firebaseAuth";
 import "../../pages/cssPages/HomeCss.css";
 
 const Mainheader = () => {
@@ -14,17 +13,29 @@ const Mainheader = () => {
     navigate("/");
   };
 
+  const handleSignout = async () => {
+    try {
+      await signOutUser();
+      navigate("/");
+    } catch (error) {
+      console.log("Error during sign out", error);
+    }
+  };
+
   return (
-    <div className="max-w-full">
+    <div className="max-w-full h-24 bg-white">
       <header className="max-w-full">
-        <div className="flex flex-row justify-between items-center px-4 py-2">
+        <div className="flex flex-row justify-between items-center px-4 py-2 pt-5">
           {" "}
           {/* Added justify-between */}
-          <div className="flex-shrink-0" onClick={handleLogoClick}>
+          <div
+            className="flex-shrink-0 justify-center"
+            onClick={handleLogoClick}
+          >
             <img
               src={myLogo}
               alt="Logo"
-              className="h-8 w-auto" // Adjusted size
+              className="h-12 w-auto" // Adjusted size
             />
           </div>
           <div className="flex">
@@ -33,7 +44,7 @@ const Mainheader = () => {
                 className="rounded-full px-4 py-2 ml-2" // Adjusted padding
                 onClick={() => navigate("/profilepage")}
               >
-                Profile
+                <p className="underline">Profile</p>
               </button>
             )}
             {user && (
@@ -41,21 +52,33 @@ const Mainheader = () => {
                 className="rounded-full px-4 py-2 ml-2" // Adjusted padding
                 onClick={() => navigate("/main")}
               >
-                Main
+                <p className="underline">Main</p>
               </button>
             )}
-            <button
-              className="rounded-full px-4 py-2 ml-2" // Adjusted padding and added margin-left for spacing
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-            <button
-              className="rounded-full bg-blue-600 px-4 py-2 ml-2" // Adjusted padding and added margin-left for spacing
-              onClick={() => navigate("/signup")}
-            >
-              Sign Up
-            </button>
+            {user && (
+              <button
+                className="rounded-full px-4 py-2 ml-2" // Adjusted padding
+                onClick={() => handleSignout()}
+              >
+                <p className="underline">Sign Out</p>
+              </button>
+            )}
+            {!user && (
+              <button
+                className="rounded-full px-4 py-2 ml-2" // Adjusted padding
+                onClick={() => navigate("/login")}
+              >
+                <p className="underline">Login</p>
+              </button>
+            )}
+            {!user && (
+              <button
+                className="rounded-full px-4 py-2 ml-2" // Adjusted padding
+                onClick={() => navigate("/signup")}
+              >
+                <p className="underline">Sign Up</p>
+              </button>
+            )}
           </div>
         </div>
       </header>

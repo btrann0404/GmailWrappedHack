@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import Inbox from './InboxPanel/Inbox';
-import EmailPanel from './EmailPanel/EmailPanel';
-import "./WelcomeScreen/WelcomeScreen.css"
-import GetUsersEmails from '../get-user-emails/get-user-emails';
+import Inbox from "./InboxPanel/Inbox";
+import EmailPanel from "./EmailPanel/EmailPanel";
+import "./WelcomeScreen/WelcomeScreen.css";
+import GetUsersEmails from "../get-user-emails/get-user-emails";
 
 import { db } from "../../firebase/firestoreService";
 import { useNavigate } from "react-router-dom";
@@ -42,22 +42,21 @@ const SplitScreen = () => {
   //   signOutUser();
   //   navigate("/login");
   // };
-  
 
   // Callback function to receive data from GetUsersEmails
   const onDataReceived = (data) => {
-    console.log("In split-screen")
-    console.log(data)
+    console.log("In split-screen");
+    console.log(data);
     setEmailData(data);
   };
 
   return (
     <div className="main-page fade-in">
-        {/* {userProfile && <h2 className="welcome-user">Welcome {userProfile.name}</h2>}
+      {/* {userProfile && <h2 className="welcome-user">Welcome {userProfile.name}</h2>}
         <div className="signs-container">
           <button className="signs" onClick={handleSignout}>Signout</button>
         </div> */}
-      <div style={{ display: 'flex'}}>
+      <div style={{ display: "flex" }}>
         <GetUsersEmails onDataFetched={onDataReceived} />
         <Inbox onEmailClick={handleEmailClick} emailData={emailData} />
         <EmailPanel selectedEmail={selectedEmail} />

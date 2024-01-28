@@ -7,8 +7,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firestoreService";
 import { doc, setDoc } from "firebase/firestore";
-import './cssPages/SignupCss.css'
+import "./cssPages/SignupCss.css";
 import Mainheader from "../components/web utils/mainheader";
+import { Input, FormLabel } from "@chakra-ui/react";
 
 function Signup() {
   const navigate = useNavigate();
@@ -62,66 +63,71 @@ function Signup() {
 
   return (
     <div>
-    <Mainheader></Mainheader>
-    <div className='body'>
-            <div className="welcome-container">
-              
-        <p className="welcome">Tell us about yourself!</p>
-        
+      <Mainheader></Mainheader>
+      <div className="body">
+        <div className="welcome-container">
+          <p className="welcome">Tell us about yourself!</p>
+        </div>
+        <div className="login-container w-[40vw]">
+          <button className="p-2" onClick={() => navigate("/")}>
+            ⬅ Go back
+          </button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <h2>Sign Up</h2>
+            <div>
+              <FormLabel>Name:</FormLabel>
+              <Input
+                className="outline "
+                type="text"
+                value={name} // Corrected to lowercase 'n'
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div>
+              <FormLabel>Email:</FormLabel>
+              <Input
+                className="outline "
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <FormLabel>Password:</FormLabel>
+              <Input
+                className="outline"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <FormLabel>Confirm Password:</FormLabel>
+              <Input
+                className="outline"
+                type="password"
+                value={password2}
+                onChange={(e) => setPassword2(e.target.value)}
+              />
+            </div>
+            <div className="button-container">
+              <button type="submit-button" className="submit-button">
+                Submit
+              </button>
+            </div>
+            <div className="centered-text">
+              Already have an account?{" "}
+              <button
+                className="signup-button"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div className="login-container">
-      <button className="p-2" onClick={() => navigate("/")}>
-        ⬅ Go back
-        </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
-        <div>
-          <label>Name:</label>
-          <input
-            className="outline"
-            type="text"
-            value={name} // Corrected to lowercase 'n'
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            className="outline"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            className="outline"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            className="outline"
-            type="password"
-            value={password2}
-            onChange={(e) => setPassword2(e.target.value)}
-          />
-        </div>
-        <div className="button-container">
-        <button type="submit-button" className='submit-button'>Submit</button>
-        </div>
-        <div className="centered-text">
-        Already have an account? {' '}
-        <button className='signup-button' onClick={() => navigate("/login")}>Login</button>
-        </div>
-      </form>
-      </div>
-    </div>
     </div>
   );
 }

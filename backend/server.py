@@ -120,7 +120,7 @@ def add_keyword_route():
     profile_ref = db.collection('profiles').document(id)
 
     # Append the new email to the existing list
-    profile_data['keywords'].append(key)
+    profile_data['keywords'].append(keyword)
 
     # Update the profile data in Firestore
     profile_ref.set(profile_data)
@@ -137,7 +137,7 @@ def add_bannedword_route():
     profile_ref = db.collection('profiles').document(id)
 
     # Append the new email to the existing list
-    profile_data['bannedwords'].append(banword)
+    profile_data['bannedwords'].append(banwords)
 
     # Update the profile data in Firestore
     profile_ref.set(profile_data)
