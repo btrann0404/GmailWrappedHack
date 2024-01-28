@@ -5,12 +5,14 @@
 
 /* Apply the font-family globally */
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Your custom styles go here */
 .inbox-container {
   @apply w-1/2 border-r border-blue-300;
+  display: flex;
+  flex-direction: column;
 }
 
 .email-item {
@@ -23,6 +25,41 @@ body {
 
 /* Inbox.css */
 
+/* Search Button */
+.search-bar {
+  display: flex;
+}
+
+.search-input {
+  padding: 0.7rem;
+  margin-left: 0rem;
+  margin-right: 0.5rem;
+  margin-top: 0.7rem;
+  margin-bottom: 2rem;
+  background-color: #dcf0ff;
+  border: 1px solid #868383;
+  border-radius: 3rem;
+  width: 100%;
+}
+
+.search-button {
+  padding: 0.7rem;
+  margin-left: 0.7rem;
+  margin-right: 0.2rem;
+  margin-top: 0.7rem;
+  margin-bottom: 2rem;
+  background-color: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.search-button:hover{
+  background-color: #dcf0ff;
+}
+
+
+
+/* catergory buttons*/
 .category-tabs {
     display: flex;
     flex-direction: column;
@@ -39,7 +76,6 @@ body {
     background-color: #e2e8f0; /* Default background color */
     border-radius: 1rem;
     transition: background-color 0.3s ease; /* Smooth transition on hover */
-    
   }
 
   .hidden {

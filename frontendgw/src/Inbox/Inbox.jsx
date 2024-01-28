@@ -5,7 +5,7 @@ import './Inbox.css';
 const Inbox = ({ emails, onEmailClick }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedEmail, setSelectedEmail] = useState(null);
-
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Dummy categories for testing
   const categories = [
@@ -42,9 +42,32 @@ const Inbox = ({ emails, onEmailClick }) => {
     //console.log(email);
     // You can pass the selected email to another component or perform other actions here
   };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  // Filter emails based on search query
+  const filteredEmails = dummyEmails.filter((email) =>
+    email.subject.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   
   return (
     <div className="inbox-container">
+      <div className="search-bar">
+        <button className="search-button" onClick={() => handleSearch(searchQuery)}>
+          🔍
+        </button>
+
+        <input
+          type="text"
+          className={`search-input ${searchQuery !== '' ? 'blinking-cursor' : ''}`}
+          placeholder="Search mail"
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+      </div>
+
       <div className="category-tabs">
         {categories.map((category) => (
           <div
