@@ -19,7 +19,7 @@ from gpt import summarize
 
 app = Flask(__name__)
 CORS(app)
-
+gmailKey = ''
 
 # fb_app = firebase_admin.initialize_app()
 # db = firestore.client()
@@ -67,37 +67,14 @@ def get_emails_route():
         print('google_token is', google_token)  
         if not google_token:
             return jsonify({"error": "Google token is missing"}), 400
-
+        
         # Initialize the Gmail service with the given token
-        service = get_gmail_service(google_token)
-
-        # Fetch emails using the Gmail API
-        results = service.users().messages().list(userId='me', labelIds=['INBOX'], maxResults=5).execute()
-        messages = results.get('messages', [])
-
-        processedEmailList = []
-        for message in messages:
-            msg = service.users().messages().get(userId='me', id=message['id'], format='raw').execute()
-
-            msg_raw = base64.urlsafe_b64decode(msg['raw'])
-            mime_msg = message_from_bytes(msg_raw)
-
-            subject = mime_msg['subject'] if mime_msg['subject'] else None
-            sender = mime_msg['from'] if mime_msg['from'] else None
-            body = mime_msg.get_payload(decode=True) if not mime_msg.is_multipart() else None
-
-            processedEmail = {
-                "Subject": subject,
-                "Sender": sender,
-                "Body": base64.b64encode(body).decode('utf-8') if body else None
-            }
-            processedEmailList.append(processedEmail)
-
-        return jsonify(processedEmailList)
 
     except Exception as e:
         app.logger.error(f"Exception occurred: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
+
+
 
 
 def add_data():
