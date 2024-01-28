@@ -1,5 +1,67 @@
-/* TestComponent.css */
+/* EmailPanel.css */
+
 .inbox-container {
-    @apply w-1/2 border-r border-blue-300;
-  }
-  
+  @apply w-1/2 border-r border-blue-300;
+}
+
+
+.email-panel {
+border: 1px solid #ccc;
+width: 50rem; 
+height: 40rem; 
+display:flex;
+padding: 20px;
+margin: 10px;
+background-color: #fff;
+border-radius: 8px;
+
+} 
+
+.email-actions {
+align-self: flex-end; /* Align the buttons to the bottom */
+}
+
+/* Style for the email header section */
+.email-header {
+align-items: flex-end;
+}
+
+/* Style for individual header fields */
+.email-header p {
+margin: 0;
+}
+
+/* Style for the email body section */
+.email-body {
+margin-bottom: 15px;
+}
+
+
+
+/* Style for the email actions buttons */
+.email-actions button {
+margin-right: 4rem;
+width: 7rem;
+padding: 8px 12px;
+background-color: #4285f4;
+color: #fff;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+
+}
+
+.email-actions button:hover {
+background-color: #2377ff;
+}
+
+/* Style for the placeholder when no email is selected */
+.email-panel-placeholder {
+text-align: center;
+padding: 20px;
+color: #777;
+border: 1px dashed #ccc;
+border-radius: 8px;
+margin: auto;
+}
