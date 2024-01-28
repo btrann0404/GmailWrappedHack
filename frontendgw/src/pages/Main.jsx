@@ -6,6 +6,7 @@ import Testing from "../testing";
 import { useUserInfo, signOutUser } from "../firebase/firebaseAuth";
 import React, { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
+import Mainheader from "../components/web utils/mainheader";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const Main = () => {
 
   return (
     <>
+      <Mainheader></Mainheader>
       <button className="p-2" onClick={() => navigate("/")}>
         Home Page
       </button>

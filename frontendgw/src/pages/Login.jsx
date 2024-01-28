@@ -5,6 +5,7 @@ import {
   useUserInfo,
   signOutUser,
 } from "../firebase/firebaseAuth";
+import Mainheader from "../components/web utils/mainheader";
 
 function Login() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function Login() {
 
   return (
     <div>
+      <Mainheader></Mainheader>
       <button className="p-2" onClick={() => navigate("/")}>
         Home Page
       </button>

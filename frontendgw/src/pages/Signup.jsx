@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firestoreService";
 import { doc, setDoc } from "firebase/firestore";
+import Mainheader from "../components/web utils/mainheader";
 
 function Signup() {
   const navigate = useNavigate();
@@ -16,16 +17,16 @@ function Signup() {
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState(""); // State for error messages
 
-  const user = useUserInfo();
+  // const user = useUserInfo();
 
-  useEffect(() => {
-    if (user) {
-      console.log("User is already logged in. Signing out...");
-      signOutUser().then(() => {
-        console.log("User signed out successfully.");
-      });
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("User is already logged in. Signing out...");
+  //     signOutUser().then(() => {
+  //       console.log("User signed out successfully.");
+  //     });
+  //   }
+  // }, [user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,6 +61,7 @@ function Signup() {
 
   return (
     <div>
+      <Mainheader></Mainheader>
       <h2>Signup</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
