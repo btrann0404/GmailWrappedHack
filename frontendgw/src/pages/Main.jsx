@@ -1,15 +1,18 @@
+import { useState, useEffect } from "react";
+import WelcomeScreen from "../components/main-page/WelcomeScreen/WelcomeScreen";
+import SplitScreen from "../components/main-page/SplitScreen";
+
 import { db } from "../firebase/firestoreService";
-import { useNavigate } from "react-router-dom";
-import Testing from "../testing";
-import { useUserInfo, signOutUser } from "../firebase/firebaseAuth";
-import React, { useState, useEffect } from "react";
+import { useUserInfo } from "../firebase/firebaseAuth";
 import { doc, getDoc } from "firebase/firestore";
-import myLogo from "../assets/GW_LOGO.png";
+import Mainheader from "../components/web utils/mainheader";
 
 const Main = () => {
-  const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const [userProfile, setUserProfile] = useState(null);
   const currentUser = useUserInfo();
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
+  const [welcomeScreenFaded, setWelcomeScreenFaded] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -28,31 +31,26 @@ const Main = () => {
     fetchUserProfile();
   }, [currentUser]);
 
-  const handleSignout = async (event) => {
-    event.preventDefault();
-    signOutUser();
-    navigate("/login");
-  };
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => {
+      setShowWelcomeScreen(false);
+      setWelcomeScreenFaded(true);
+    }, 3000);
+
+    return () => clearTimeout(fadeTimer);
+  }, []);
 
   return (
-    <>
-      <button className="p-2" onClick={() => navigate("/")}>
-        Home Page
-      </button>
-
-      <div className="home-logo">
-        <img src={myLogo} />
-      </div>
-      
-      {userProfile && <h2>Welcome {userProfile.name}</h2>}
-      <Testing></Testing>
-      <div className="card">
-        <button onClick={handleSignout}>Signout</button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-    </>
+    <div className={`app-container ${welcomeScreenFaded ? "fade-out" : ""}`}>
+      {showWelcomeScreen ? (
+        <WelcomeScreen />
+      ) : (
+        <div>
+          <Mainheader></Mainheader>
+          <SplitScreen />
+        </div>
+      )}
+    </div>
   );
 };
 

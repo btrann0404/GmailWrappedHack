@@ -1,95 +1,124 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import db from "../../firebase/firebaseConfig";
-import { query, collection, where, getDocs } from "firebase/firestore";
+import { db } from "../../firebase/firestoreService";
+import { doc, getDoc } from "firebase/firestore";
+import { useUserInfo } from "../../firebase/firebaseAuth";
+import { RepeatIcon } from '@chakra-ui/icons'
 
-const GetUsersEmails = () => {
-  const [email, setEmail] = useState("");
+
+const GetUsersEmails = ({ onDataFetched }) => {
   const [userEmails, setUserEmails] = useState([]);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState([]);
+  const [loaded, setLoaded] = useState(false); // State to track initial load
+  const currentUser = useUserInfo();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  useEffect(() => {
+    const fetchData = async () => {
+      setError("");
 
-    try {
-      // First, get the categories associated with the entered email
-      const userCategories = await getCategories(email);
+      try {
+        const userEmails = await getUserEmailsById(currentUser.uid);
+        const userCategories = await getCategories(currentUser.uid);
+        const bannedwords = await getBannedWords(currentUser.uid);
 
-      // Then, send both the email and categories to your Flask backend
-      const response = await axios.post("http://localhost:5000/getemails", {
-        email,
-        categories: userCategories,
-      });
+        const response = await axios.post("http://localhost:5000/getemails", {
+          emails: userEmails,
+          categories: userCategories,
+          banned: bannedwords
+        });
 
-      // Assuming the response data is the list of user emails
-      setUserEmails(response.data);
-    } catch (err) {
-      console.error("Error fetching user emails:", err);
-      setError("Failed to fetch user emails.");
+        setUserEmails(response.data);
+        onDataFetched(response.data);
+        setLoaded(true); // Set loaded to true after initial load
+      } catch (err) {
+        console.error("Error fetching user emails:", err);
+        setError("Failed to fetch user emails.");
+      }
+    };
+
+    // Run the initial data fetch when the component is loaded
+    if (!loaded) {
+      fetchData();
     }
-  };
+  }, [currentUser, loaded, onDataFetched]);
 
-  const getCategories = async (email) => {
-    const usersRef = collection(db, "matt_users_test");
-    const q = query(usersRef, where("email", "==", email));
-
+  const getCategories = async (currentUser) => {
+    const userRef = doc(db, "profiles", currentUser);
     try {
-      const querySnapshot = await getDocs(q);
-      console.log(querySnapshot);
-      const userData = [];
+      const userDoc = await getDoc(userRef);
 
-      querySnapshot.forEach((doc) => {
-        userData.push(doc.data());
-      });
-
-      // Assuming "keywords" is the field you want to extract
-      const userCategories = userData.map((data) => data.keywords);
-      console.log(userCategories);
-
-      // Update the state with the retrieved categories
-      setCategories(userCategories.flat()); // Flatten the array if needed
-
-      return userCategories;
+      if (userDoc.exists()) {
+        setCategories(userDoc.data().keywords);
+        return userDoc.data().keywords;
+      }
     } catch (error) {
       console.error("Error fetching user by email:", error);
       throw error;
     }
   };
 
+  const getUserEmailsById = async (currentUser) => {
+    const userRef = doc(db, "profiles", currentUser);
+    try {
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        return userDoc.data().gmail_list;
+      } else {
+        console.log("No such user!");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching user by ID:", error);
+      throw error;
+    }
+  };
+
+  const getBannedWords = async (currentUser) => {
+    const userRef = doc(db, "profiles", currentUser);
+    try {
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        return userDoc.data().bannedwords;
+      }
+    } catch (error) {
+      console.error("Error fetching user by email:", error);
+      throw error;
+    }
+  };
+
+  const handleFetchData = async () => {
+    // Trigger data fetch when the button is clicked
+    setLoaded(false); // Set loaded to false to re-run initial fetch
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        {/* <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /> */}
-        <button type="submit" className="outline bg-cyan-300">
-          Look at Emails
-        </button>
-      </form>
+      <button onClick={handleFetchData} className="w-12 h-12 rounded-full text-lg flex items-center justify-center" style={{ fontSize: "2em", margin: "0.1em"}}>
+        <RepeatIcon />
+      </button>
 
-      {error && <p>Error: {error}</p>}
+      {/* {error && <p>Error: {error}</p>}
 
-      <h2>User Emails</h2>
-      {categories.map((category, index) => (
-        <div key={index}>
-          <h3>{category}</h3>
-          {userEmails[category]?.map((emailData, emailIndex) => (
-            <div key={emailIndex}>
-              <p>Subject: {emailData.Subject}</p>
-              <p>Sender: {emailData.Sender}</p>
-              <p>Body: {emailData.Body}</p>
-              <hr />
+      {categories.length > 0 && (
+        <div>
+          {categories.map((category, index) => (
+            <div key={index}>
+              <h3>{category}</h3>
+              {userEmails[category]?.map((emailData, emailIndex) => (
+                <div key={emailIndex}>
+                  <p>Subject: {emailData.Subject}</p>
+                  <p>Sender: {emailData.Sender}</p>
+                  <p>Body: {emailData.Body}</p>
+                  <hr />
+                </div>
+              ))}
             </div>
           ))}
         </div>
-      ))}
+      )} */}
     </div>
   );
 };

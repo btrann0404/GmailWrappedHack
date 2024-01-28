@@ -1,54 +1,79 @@
-/* HomeCss.css */
+/* HomeCss.css /
 
 body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center-align items horizontally */
-  justify-content: center; /* Center-align items vertically */
-  min-height: 100vh; /* Make sure the body takes at least the full height of the viewport */
+  font-family: "Roboto", sans-serif;
+  / background-color: #4285f4;  */
+margin: 0;
+padding: 0;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+
+header {
+  background-color: #ffffff;
+  margin: 0px;
 }
-  
-  header {
-    text-align: center;
-  }
-  
-  .home-logo {
-    margin: 20px;
-  }
-  
-  .logo-button {
-    cursor: pointer;
-    max-width: 100%;
-    height: auto;
-  }
-  
-  button {
-    display: flex;
-    background-color: #4285f4;
-    color: #fff;
-    border: none;
-    border-radius: .5rem;
-    padding: 15px 30px;
-    margin: 10px auto;
-    cursor: pointer;
-    font-size: 1.5em;
-  }
-  
-  h1 {
-    color: #333;
-    text-align: center;
-    font-size: 2em;
-  }
-  
-  .card {
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px auto; /* Center-align the card horizontally */
-    border-radius: 8px;
-    width: 500px; /* Set a fixed width */
-    height: 250px; /* Set a fixed height equal to the width */
-  }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
+.header-buttons-container {
+  display: flex;
+  align-items: center;
+}
+
+.home-logo {
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 65%;
+  margin-bottom: 0px;
+}
+
+.home-image-container {
+  background-color: #4285f4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80vh;
+  width: auto;
+  position: absolute;
+  top: 22vh;
+  z-index: -5;
+}
+
+.home-image {
+  margin: 0px;
+}
+
+.logo-button {
+  cursor: pointer;
+  max-width: 100%;
+  height: auto;
+}
+
+.button {
+  display: flex;
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 15px 30px;
+  margin: 10px auto;
+  cursor: pointer;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+
+.button-spacing {
+  margin-right: 10px;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+  font-size: 2em;
+}

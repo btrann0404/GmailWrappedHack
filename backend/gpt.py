@@ -2,8 +2,14 @@ from openai import OpenAI
 
 client = OpenAI(api_key="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")
 
-def categorize(email_body, categories):
-    prompt = "I want you to categorize this into separate categories and only respond with a the single word: "
+def truncate_text(text, max_length=6000):
+    """Truncate the text to a maximum approximate length, considering token limits."""
+    if len(text) > max_length:
+        return text[:max_length] + "..."
+    return text
+
+def categorize(email_body, categories, banned):
+    prompt = "I want you to categorize this into separate categories but if its unreadable for a human respond with the one word Unreadable but always only respond with a the single word: "
     catstring = ", ".join(categories)
     prompt += catstring
 
@@ -13,6 +19,8 @@ def categorize(email_body, categories):
      #establish tone and how you want the ai answer
     {"role": "assistant", "content": "I will give you a one word answer that makes the most sense for the category I believe it should be in."},
     ]
+
+    email_body = truncate_text(email_body)
 
     chat_log.append({"role": "user", "content": email_body})
     response = client.chat.completions.create(
@@ -33,6 +41,8 @@ def summarize(input_text):
      #establish tone and how you want the ai answer
     {"role": "assistant", "content": "I will give you a summarized one of the text with important point you should know in only a few sentences, 5 sentences max."},
     ]
+
+    input_text = truncate_text(input_text)
 
     chat_log.append({"role": "user", "content": input_text})
     response = client.chat.completions.create(
