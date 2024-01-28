@@ -1,58 +1,28 @@
-import React, { useState } from "react";
 import { signInWithGoogle } from "../firebase/firebaseAuth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      const googleToken = await signInWithGoogle();
+      // Send the token to your backend or handle it as needed
+      console.log(googleToken);
+      await axios.post("http://localhost:5000/getemails", {
+        token: googleToken,
+      });
       navigate("/example");
     } catch (error) {
-      console.error("Error during sign in:", error);
-      // Handle any errors that occur during sign-in here
+      console.error("Error during sign in with Google:", error);
     }
   };
 
   return (
     <div>
       <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            className="outline"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            className="outline"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            className="outline"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-      <button onClick={handleSubmit}>Sign In With Google</button>
+      <button onClick={handleGoogleSignIn}>Sign In With Google</button>
     </div>
   );
 }

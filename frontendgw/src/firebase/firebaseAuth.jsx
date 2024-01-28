@@ -7,18 +7,43 @@ import {
 } from "firebase/auth";
 
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+
+export const getEmails = async () => {};
 
 export const signInWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  provider.addScope("https://www.googleapis.com/auth/gmail.readonly"); // Adjust the scope as needed
+
   try {
+    const auth = getAuth();
     const result = await signInWithPopup(auth, provider);
-    console.log(result);
-    // Handle the result as needed (e.g., extracting user info)
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    return credential.accessToken; // Return the Google OAuth token
   } catch (error) {
-    console.error("Error signing in: ", error);
-    // Handle any errors during sign-in
+    console.error("Error signing in with Google:", error);
+    throw error;
   }
 };
+// export const signInWithGoogle = async () => {
+//   const provider = new GoogleAuthProvider();
+// //   provider.addScope("https://www.googleapis.com/auth/gmail.readonly");
+
+//   try {
+//     const auth = getAuth();
+//     const result = await signInWithPopup(auth, provider);
+
+//     // This gives you a Google Access Token.
+//     const credential = GoogleAuthProvider.credentialFromResult(result);
+//     console.log("credential: " , credential)
+//     const googleToken = credential.accessToken;
+//     console.log("googleToken: " , credential)
+
+//     return googleToken; // This is the Google OAuth token
+//   } catch (error) {
+//     console.error("Error signing in with Google: ", error);
+//     throw error;
+//   }
+// };
 
 export const signOutWithGoogle = async () => {
   try {

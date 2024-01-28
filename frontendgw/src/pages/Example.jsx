@@ -4,6 +4,7 @@ import reactLogo from "../assets/react.svg";
 import viteLogo from "/vite.svg";
 import { signOutWithGoogle } from "../firebase/firebaseAuth";
 import { useNavigate } from "react-router-dom";
+import Testing from "../testing";
 
 const Example = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Example = () => {
         </a>
       </div>
       <h1 className="text-3xl font-bold underline">Gmail Wrapped</h1>
+      <Testing></Testing>
       <div className="card">
         <button onClick={handleSignout}>Signout</button>
         <p>
