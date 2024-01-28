@@ -118,3 +118,19 @@ body {
 
   }
   
+
+  .placeholda {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    animation: fadearound 3s ease infinite;
+  }
+
+  @keyframes fadearound {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
+}

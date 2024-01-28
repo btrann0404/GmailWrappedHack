@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import './Inbox.css';
+import placeholderImage from '../../../assets/placeholder.png';
 
 const Inbox = ({ onEmailClick, emailData }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -51,8 +52,13 @@ const Inbox = ({ onEmailClick, emailData }) => {
     })
     .slice(0, 3);
 
+
+    // make if loading statement here for loading screen gif //
   return (
-    <div className="inbox-container text-lg">
+    <div className="inbox-container text-lg"> 
+    {categories.length === 0 ? (
+      <img className="placeholda" src={ placeholderImage } alt="category placeholder"/> 
+    ) : ( <div>
       <div className="search-bar">
         <button className="search-button" onClick={() => handleSearch(searchQuery)}>
           🔍
@@ -115,8 +121,10 @@ const Inbox = ({ onEmailClick, emailData }) => {
             ))}
           <button onClick={handleGoBack}>Go Back</button>
         </div>
-      )}
+      )} 
+    </div>)}
     </div>
+
   );
 };
 
