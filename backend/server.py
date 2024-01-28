@@ -4,22 +4,15 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import firebase_admin
-from firebase_admin import firestore, credentials, auth
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
-import base64
-from email import message_from_bytes
-from google.oauth2 import service_account
+from firebase_admin import firestore, credentials
+from google.cloud.firestore_v1 import ArrayUnion
 
-
-
-
-from gmailapitesting import getEmails
+from gmailapitesting import getEmails, organizeEmails, getSubjectLines
 from gpt import summarize
 
 app = Flask(__name__)
 CORS(app)
-gmailKey = ''
+
 
 # fb_app = firebase_admin.initialize_app()
 # db = firestore.client()
@@ -27,70 +20,45 @@ cred = credentials.Certificate('firebase-credentials-python.json')
 default_app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-def create_credentials(google_token, refresh_token, client_id, client_secret):
-    return Credentials(
-        token=google_token,
-        refresh_token=refresh_token,
-        token_uri='https://oauth2.googleapis.com/token',
-        client_id=client_id,
-        client_secret=client_secret
-    )
-def get_gmail_service(google_token):
-    # Create credentials using the provided token
-    credentials = Credentials(token=google_token)
-    # Build the Gmail service
-    service = build('gmail', 'v1', credentials=credentials)
-    return service
-
-
-@app.route("/home")
+@app.route("/home") #dont need
 def home():
     print({"home", "here"})
 
-@app.route('/add-data')
-def add_data_route():
-    add_data()
-    return "worked!"
-
-@app.route('/summarize-article')
+@app.route('/summarize-article') #deal with later
 def summarize_article_route():
     emails = getEmails()
     email_body_str = emails[0]["Body"].decode('utf-8')
     return summarize(email_body_str)
 
-@app.route('/getemails', methods=['POST'])
+@app.route('/getemails', methods=['POST']) 
 def get_emails_route():
-    try:
-        data = request.get_json()  # Use get_json() for more robust JSON parsing
-        print("Received data:", data)  # Debugging statement
-        google_token = data.get('token') if data else None
-        print('google_token is', google_token)  
-        if not google_token:
-            return jsonify({"error": "Google token is missing"}), 400
-        
-        # Initialize the Gmail service with the given token
+    data = request.get_json()
+    categories = data.get('categories')
+    emailList = getEmails()  # Call your getEmails function
+    subjectLines = getSubjectLines(emailList)
+    print("Subject lines:", subjectLines)
+    organizedEmails = organizeEmails(emailList, categories)
 
-    except Exception as e:
-        app.logger.error(f"Exception occurred: {e}", exc_info=True)
-        return jsonify({"error": str(e)}), 500
+    # Query the user document by email
+    user_ref = db.collection('matt_users_test').where(field_path='email', op_string='==', value="matt@gmail.com").limit(1)
+    docs = user_ref.stream() #doesnt work
+    user_doc_ref = None
+    for doc in docs:
+        user_doc_ref = doc.reference
+        break
 
+    # Update the user document with new subject lines
+    if user_doc_ref:
+        user_doc_ref.update({
+            'subjectLines': subjectLines
+        })
 
+    for category, emails in organizedEmails.items():
+        for email in emails:
+            if email.get('Body') is not None:
+                email['Body'] = email['Body'].decode('utf-8')
 
-
-def add_data():
-    # Reference to the collection
-    collection_ref = db.collection('your_collection_name')
-
-    # Data to be added
-    doc_data = {
-        'field1': 'value1',
-        'field2': 'value2',
-    }
-
-    # Actually Add
-    collection_ref.add(doc_data)
-
-    return
+    return jsonify(organizedEmails)
 
 if __name__ == "__main__":
     app.run(debug=True)

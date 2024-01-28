@@ -47,4 +47,4 @@ def summarize(input_text):
     return result
 
 if __name__ == "__main__":
-    print(result)
+    print(1)
