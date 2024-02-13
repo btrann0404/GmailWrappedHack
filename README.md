@@ -1,6 +1,7 @@
 <h1>Gmail Wrapped</h1>
 <h3>Developed By: Jocelyn Phan, Kaylee Doliente, Matthew Jamison, and Brandon Tran</h3>
 <body>
+  <h2>Application Demo Video</h2>
   <a href="https://youtu.be/0boYgb7N6A0">
     <img src="https://img.youtube.com/vi/0boYgb7N6A0/maxresdefault.jpg" alt="Video Thumbnail">
 </a>
